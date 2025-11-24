@@ -1,14 +1,13 @@
 'use client'
 import { useRef, useState } from 'react'
 
-const MODEL_NAME = 'gemini-2.5-flash-preview-09-2025' // Define o modelo
+const MODEL_NAME = 'gemini-2.5-flash-preview-09-2025' 
 
 /**
- * Função utilitária para chamar a API /api/generate com tratamento de erros robusto.
- * (Traduzida e adaptada do código TS fornecido pelo usuário)
- * @param {object} payload - Dados a serem enviados (input, mode, propositions).
- * @param {number} timeoutMs - Tempo limite da requisição.
- * @returns {Promise<string>} O texto da resposta da IA.
+
+ * @param {object} payload 
+ * @param {number} timeoutMs
+ * @returns {Promise<string>} 
  */
 async function callGenKitAPI(payload, timeoutMs = 15000) {
   const controller = new AbortController()
@@ -42,10 +41,9 @@ async function callGenKitAPI(payload, timeoutMs = 15000) {
       throw new Error(msg)
     }
 
-    // Extrai texto em possíveis formatos (do código TS fornecido)
     const text =
       data?.text ??
-      data?.resposta ?? // Adicionado para compatibilidade com o backend
+      data?.resposta ?? 
       (data?.choices && data.choices[0]?.text) ??
       (typeof data === 'string' ? data : undefined)
 
@@ -63,13 +61,12 @@ async function callGenKitAPI(payload, timeoutMs = 15000) {
 }
 
 /**
- * Componente principal para a interface de conversão.
  * @param {object} props
- * @param {string} props.labelInput - Rótulo para a área de input.
- * @param {string} props.labelOutput - Rótulo para a área de output.
- * @param {string} props.placeholder - Texto de exemplo para o input.
- * @param {string} props.buttonText - Texto do botão de conversão.
- * @param {'nl-to-cpc' | 'cpc-to-nl'} props.mode - Modo de conversão.
+ * @param {string} props.labelInput 
+ * @param {string} props.labelOutput 
+ * @param {string} props.placeholder 
+ * @param {string} props.buttonText 
+ * @param {'nl-to-cpc' | 'cpc-to-nl'} props.mode 
  */
 export default function GenKitInference({
   labelInput,
@@ -86,7 +83,6 @@ export default function GenKitInference({
   const [showProps, setShowProps] = useState(false)
   const textareaRef = useRef(null)
 
-  // Símbolos CPC para inserção rápida
   const cpcSymbols = [
     { k: '¬', v: '¬', title: 'Negação' },
     { k: '∧', v: ' ∧ ', title: 'Conjunção' },
@@ -97,9 +93,7 @@ export default function GenKitInference({
     { k: ')', v: ')', title: 'Fecha parêntese' },
   ]
 
-  // Cores personalizadas (Baseado nos designs)
   const isCpcToNl = mode === 'cpc-to-nl'
-  // NL -> CPC (Verde escuro / Roxo)
   const accentColorNL = '#6a0dad' 
   const buttonBackgroundNL = 'linear-gradient(135deg, #6a0dad, #9b4dff)'
   const resultBorderColorNL = '#9b4dff'
